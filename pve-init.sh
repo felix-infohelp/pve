@@ -27,45 +27,13 @@ echo "/dev/pve/data /mnt/data ext4 defaults 0 0" >> /etc/fstab
 apt update
 apt -y upgrade
 
-apt -y install vim sysstat iotop
-cat << END > ~/.vimrc
-set ls=2
-set statusline=[%{expand('%:p')}]\ [%{strlen(&fenc)?&fenc:&enc},\ %{&ff},\ %{strlen(&filetype)?&filetype:'plain'}]\ %{FileSize()}%{IsBinary()}%=%c,%l/%L\ [%3p%%]
-function IsBinary()
-    if (&binary == 0)
-        return ""
-    else
-        return "[Binary]"
-    endif
-endfunction
+apt -y install vim sysstat iotop systemd-timesyncd
 
-function FileSize()
-    let bytes = getfsize(expand("%:p"))
-    if bytes <= 0
-        return "[Empty]"
-    endif
-    if bytes < 1024
-        return "[" . bytes . "B]"
-    elseif bytes < 1048576
-        return "[" . (bytes / 1024) . "KB]"
-    else
-        return "[" . (bytes / 1048576) . "MB]"
-    endif
-endfunction
+curl https://raw.githubusercontent.com/wklken/vim-for-server/master/vimrc -o ~/.vimrc
 
-syntax enable
-set nohlsearch
-set backspace=2
-set noautoindent
-set ruler
-set showmode
-set background=dark
-colorscheme solarized
-END
-
-mkdir -p ~/.vim/colors
-curl -o solarized.vim https://raw.githubusercontent.com/felix-infohelp/vim-colors-solarized/master/colors/solarized.vim
-mv -f solarized.vim ~/.vim/colors/
+#mkdir -p ~/.vim/colors
+#curl -o solarized.vim https://raw.githubusercontent.com/felix-infohelp/vim-colors-solarized/master/colors/solarized.vim
+#mv -f solarized.vim ~/.vim/colors/
 
 # 隱藏訂閱警告
 
