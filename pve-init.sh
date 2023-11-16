@@ -14,13 +14,20 @@ deb http://download.proxmox.com/debian bookworm pve-no-subscription
 deb http://download.proxmox.com/debian/ceph-quincy bookworm no-subscription
 END
 
-
-lvremove pve/
+# modify disk (default local & local-lvm, if install as ZFS no need do this)
+umount /dev/pve/data
+lvremove -y /dev/pve/data
+lvcreate -l +100%FREE -n data pve
+mkfs.ext4 /dev/pve/data
+mkdir /mnt/data
+mount /dev/pve/data /mnt/data
+echo "/dev/pve/data /mnt/data ext4 defaults 0 0" >> /etc/fstab
+## Add data to DataCenter > storage 
 
 apt update
 apt -y upgrade
 
-apt -y install vim
+apt -y install vim sysstat iotop
 cat << END > ~/.vimrc
 set ls=2
 set statusline=[%{expand('%:p')}]\ [%{strlen(&fenc)?&fenc:&enc},\ %{&ff},\ %{strlen(&filetype)?&filetype:'plain'}]\ %{FileSize()}%{IsBinary()}%=%c,%l/%L\ [%3p%%]
