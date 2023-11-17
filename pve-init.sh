@@ -27,7 +27,7 @@ echo "/dev/pve/data /mnt/data ext4 defaults 0 0" >> /etc/fstab
 apt update
 apt -y upgrade
 
-apt -y install vim sysstat iotop systemd-timesyncd
+apt -y install parted vim sysstat iotop systemd-timesyncd
 
 curl https://raw.githubusercontent.com/wklken/vim-for-server/master/vimrc -o ~/.vimrc
 
