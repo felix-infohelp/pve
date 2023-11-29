@@ -14,14 +14,15 @@ deb http://download.proxmox.com/debian bookworm pve-no-subscription
 deb http://download.proxmox.com/debian/ceph-quincy bookworm no-subscription
 END
 
+# Suggest install PVE as ZFS
 # modify disk (default local & local-lvm, if install as ZFS no need do this)
-umount /dev/pve/data
-lvremove -y /dev/pve/data
-lvcreate -l +100%FREE -n data pve
-mkfs.ext4 /dev/pve/data
-mkdir /mnt/data
-mount /dev/pve/data /mnt/data
-echo "/dev/pve/data /mnt/data ext4 defaults 0 0" >> /etc/fstab
+## umount /dev/pve/data
+## lvremove -y /dev/pve/data
+## lvcreate -l +100%FREE -n data pve
+## mkfs.ext4 /dev/pve/data
+## mkdir /mnt/data
+## mount /dev/pve/data /mnt/data
+## echo "/dev/pve/data /mnt/data ext4 defaults 0 0" >> /etc/fstab
 ## Add data to DataCenter > storage 
 
 apt update
@@ -31,9 +32,11 @@ apt -y install parted vim sysstat iotop systemd-timesyncd
 
 curl https://raw.githubusercontent.com/wklken/vim-for-server/master/vimrc -o ~/.vimrc
 
-#mkdir -p ~/.vim/colors
-#curl -o solarized.vim https://raw.githubusercontent.com/felix-infohelp/vim-colors-solarized/master/colors/solarized.vim
-#mv -f solarized.vim ~/.vim/colors/
+# mkdir -p ~/.vim/colors
+# curl -o solarized.vim https://raw.githubusercontent.com/felix-infohelp/vim-colors-solarized/master/colors/solarized.vim
+# mv -f solarized.vim ~/.vim/colors/
+curl https://raw.githubusercontent.com/wklken/vim-for-server/master/vimrc -o ~/.vimrc
+
 
 # 隱藏訂閱警告
 
